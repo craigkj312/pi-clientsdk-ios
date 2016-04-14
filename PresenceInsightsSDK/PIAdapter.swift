@@ -66,7 +66,7 @@ public class PIAdapter: NSObject {
         let authorizationString = username + ":" + password
         _authorization = "Basic " + (authorizationString.dataUsingEncoding(NSASCIIStringEncoding)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding76CharacterLineLength))!
         
-        print(TAG + "Adapter Initialized with URL: \(_configURL)")
+        print(TAG + "Adapter Initialized with URL: \(_configURL_v2)")
         
     }
     
@@ -143,7 +143,7 @@ extension PIAdapter {
 
     private func handleDevice(device: PIDevice, callback:(PIDevice?, NSError?)->()) {
         let device = device
-        let endpoint = _configURL + "/devices"
+        let endpoint = _configURL_v2 + "/devices"
         
         if device.data == nil {
             device.data = [:]
@@ -250,7 +250,7 @@ extension PIAdapter {
     */
     public func getDeviceByCode(code: String, callback:(PIDevice?, NSError?)->()) {
         
-        let endpoint = _configURL + "/devices/" + code
+        let endpoint = _configURL_v2 + "/devices/" + code
         getDevice(endpoint, callback: {deviceData, error in
             guard let deviceData = deviceData where error == nil else {
                 callback(nil, error)
@@ -270,7 +270,7 @@ extension PIAdapter {
     @available(*, deprecated=1.2.1, message="Use getDeviceByCode() with the code returned from registering device.")
     public func getDeviceByDescriptor(descriptor: String, callback:(PIDevice?, NSError?)->()) {
         
-        let endpoint = _configURL + "/devices?rawDescriptor=" + descriptor
+        let endpoint = _configURL_v2 + "/devices?rawDescriptor=" + descriptor
         getDevice(endpoint, callback: {deviceData, error in
             guard let deviceData = deviceData where error == nil else {
                 callback(nil, error)
@@ -324,7 +324,7 @@ extension PIAdapter {
     */
     public func getAllDevices(callback:([PIDevice]?, NSError?)->()) {
         
-        let endpoint = _configURL + "/devices?pageSize=100"
+        let endpoint = _configURL_v2 + "/devices?pageSize=100"
         
         getDevices(endpoint, callback: {devices, error in
             guard let devices = devices where error == nil else {
@@ -345,7 +345,7 @@ extension PIAdapter {
     */
     public func getRegisteredDevices(callback:([PIDevice]?, NSError?)->()) {
         
-        let endpoint = _configURL + "/devices?pageSize=100&registered=true"
+        let endpoint = _configURL_v2 + "/devices?pageSize=100&registered=true"
         
         getDevices(endpoint, callback: {devices, error in
             guard let devices = devices where error == nil else {
@@ -397,7 +397,7 @@ extension PIAdapter {
     */
     public func getAllBeaconRegions(callback:([String]?, NSError?) -> ()) {
         
-        let endpoint = _configURL + "/views/proximityUUID"
+        let endpoint = _configURL_v2 + "/views/proximityUUID"
         
         let request = buildRequest(endpoint, method: GET, body: nil)
         performRequest(request, callback: {response, error in
@@ -532,7 +532,7 @@ extension PIAdapter {
     public func getMap(site: String, floor: String, callback:(UIImage?, NSError?)->()) {
         
         // Swift cannot handle this complex of an expression without breaking it down.
-        var endpoint =  _configURL + "/sites/" + site
+        var endpoint =  _configURL_v2 + "/sites/" + site
         endpoint += "/floors/" + floor + "/map"
         
         let request = buildRequest(endpoint, method: GET, body: nil)
@@ -573,7 +573,7 @@ extension PIAdapter {
     */
     public func getOrg(callback:(PIOrg?, NSError?)->()) {
         
-        let endpoint =  _configURL
+        let endpoint =  _configURL_v2
         
         let request = buildRequest(endpoint, method: GET, body: nil)
         performRequest(request, callback: {response, error in
@@ -602,7 +602,7 @@ extension PIAdapter {
     */
     public func getAllSites(callback:([String: String]?, NSError?)->()) {
         
-        let endpoint =  _configURL + "/sites"
+        let endpoint =  _configURL_v2 + "/sites"
         
         let request = buildRequest(endpoint, method: GET, body: nil)
         performRequest(request, callback: {response, error in
